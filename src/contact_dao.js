@@ -88,4 +88,13 @@ export default class ContactDAO {
             return null;
         }
     }
+
+    static getContactsThatHaveBirthday() {
+        let contacts = ContactDAO.#contacts.filter((contact) => (contact.birthDate.getDate() === (new Date()).getDate() && contact.birthDate.getMounth() === (new Date()).getMounth()));
+        if (contacts) {
+            return contacts;
+        } else {
+            return null;
+        }
+    }
 }

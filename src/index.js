@@ -171,6 +171,7 @@ import readlineSync from 'readline-sync';
         }
 
         if (text === "birthDay" || text === "birthDay\r\n") {
+            console.log(JSON.stringify(ContactDAO.getContactsThatHaveBirthday(), null, 5));
             continue;
         }
 

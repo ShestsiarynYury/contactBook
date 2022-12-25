@@ -56,7 +56,7 @@ export default class Contact {
         return this.#firstName;
     }
 
-    get berthDate() {
+    get birthDate() {
         return this.#birthDate;
     }
 

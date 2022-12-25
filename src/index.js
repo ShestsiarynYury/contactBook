@@ -69,7 +69,7 @@ import readlineSync from 'readline-sync';
 
             let comment = readlineSync.question('Insert comment: ');
 
-            ContactDAO.add(new Contact(lastName, firstName, phones, comment));
+            ContactDAO.add(new Contact(lastName, firstName, birthday, phones, comment));
             continue;
         }
 

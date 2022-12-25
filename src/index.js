@@ -1,7 +1,6 @@
 import Contact from './contact.js';
 import ContactDAO from './contact_dao.js';
 import readlineSync from 'readline-sync';
-import util from 'util';
 
 (function main() {
     console.log("ContactBook CLI v1.0.0");
@@ -23,13 +22,43 @@ import util from 'util';
 
         if (text === "add" || text === "add\r\n") {
             let lastName = readlineSync.question('Insert lastname: ');
+
             let firstName = readlineSync.question('Insert firstname: ');
-            console.log("Type 'end' to finish the enter of phones");
+
+            console.log('Insert birthday: \n');
+            console.log('[Z] <- -> [X]  EXIT: [q]\n');
+            let maxDay = 31, minDay = 1, day = 15, keyDay;
+            let maxMounth = 12, minMounth = 1, mounth = 7, keyMounth;
+            while (true) {
+                console.log('\x1B[1A\x1B[K|' +
+                    (new Array(day)).join('-') + 'O' +
+                    (new Array(maxDay - day + 1)).join('-') + '| ' + day );
+                keyDay = readlineSync.keyIn('', {hideEchoBack: true, mask: '', limit: 'zxq'});
+                if (keyDay === 'z') { if (day > minDay) { day--; } }
+                else if (keyDay === 'x') { if (day < maxDay) { day++; } }
+                else if (keyDay === 'q') { break; }
+                else { break; }
+            }
+            while (true) {
+                console.log('\x1B[1A\x1B[K|' +
+                    (new Array(mounth)).join('-') + 'O' +
+                    (new Array(maxMounth - mounth + 1)).join('-') + '| ' + mounth);
+                keyMounth = readlineSync.keyIn('', {hideEchoBack: true, mask: '', limit: 'zxq'});
+                if (keyMounth === 'z') { if (mounth > minMounth ) { mounth--; } }
+                else if (keyMounth === 'x') { if (mounth < maxMounth) { mounth++; } }
+                else if (keyDay === 'q') { break; }
+                else { break; }
+            }
+            let year = readlineSync.question('Insert year: ');
+            let birthday = new Date(Number(year), Number(mounth) - 1, Number(day) + 1);
+            console.log(`birthday: ${JSON.stringify(birthday)}`);
+
+            console.log("Type 'q' to finish the enter of phones");
             let endPhonesFlag = false;
             let phones = [];
             while(!endPhonesFlag) {
                 let phone = readlineSync.question('Insert phone: ');
-                if (phone === "end" || phone === "end\r\n") break;
+                if (phone === "q" || phone === "q\r\n") break;
                 if (Contact.validatePhone(phone)) {
                     phones.push(phone);
                 } else {
@@ -37,36 +66,66 @@ import util from 'util';
                 }
             }
             console.log(`phones: ${JSON.stringify(phones)}`);
+
             let comment = readlineSync.question('Insert comment: ');
-            ContactDAO.add(new Contact(phones, lastName, firstName, comment));
-            ContactDAO.save();
+
+            ContactDAO.add(new Contact(lastName, firstName, phones, comment));
             continue;
         }
 
         if (text === "delete" || text === "delete\r\n") {
             let id = readlineSync.question('Insert id: ');
+
             let index = ContactDAO.delete(id);
             if (index) {
                 console.log(`You delete contact with ${index} index`);
             } else {
                 console.log(`Not exist contact with ${index} index`);
             }
-            ContactDAO.save();
             continue;
         }
 
         if (text === "update" || text === "update\r\n") {
             let id = readlineSync.question('Insert id: ');
-            let contact = ContactDAO.getContactById(id)
-            console.log(contact);
+
             let lastName = readlineSync.question('Insert lastname: ');
+
             let firstName = readlineSync.question('Insert firstname: ');
-            console.log("Type 'end' to finish the enter of phones");
+
+            console.log('Insert birthday: \n');
+            console.log('[Z] <- -> [X]  EXIT: [q]\n');
+            let maxDay = 31, minDay = 1, day = 15, keyDay;
+            let maxMounth = 12, minMounth = 1, mounth = 7, keyMounth;
+            while (true) {
+                console.log('\x1B[1A\x1B[K|' +
+                    (new Array(day)).join('-') + 'O' +
+                    (new Array(maxDay - day + 1)).join('-') + '| ' + day );
+                keyDay = readlineSync.keyIn('', {hideEchoBack: true, mask: '', limit: 'zxq'});
+                if (keyDay === 'z') { if (day > minDay) { day--; } }
+                else if (keyDay === 'x') { if (day < maxDay) { day++; } }
+                else if (keyDay === 'q') { break; }
+                else { break; }
+            }
+            while (true) {
+                console.log('\x1B[1A\x1B[K|' +
+                    (new Array(mounth)).join('-') + 'O' +
+                    (new Array(maxMounth - mounth + 1)).join('-') + '| ' + mounth);
+                keyMounth = readlineSync.keyIn('', {hideEchoBack: true, mask: '', limit: 'zxq'});
+                if (keyMounth === 'z') { if (mounth > minMounth ) { mounth--; } }
+                else if (keyMounth === 'x') { if (mounth < maxMounth) { mounth++; } }
+                else if (keyDay === 'q') { break; }
+                else { break; }
+            }
+            let year = readlineSync.question('Insert year: ');
+            let birthday = new Date(Number(year), Number(mounth) - 1, Number(day) + 1);
+            console.log(`birthday: ${JSON.stringify(birthday)}`);
+
+            console.log("Type 'q' to finish the enter of phones");
             let endPhonesFlag = false;
             let phones = [];
             while(!endPhonesFlag) {
                 let phone = readlineSync.question('Insert phone: ');
-                if (phone === "end" || phone === "end\r\n") break;
+                if (phone === "q" || phone === "q\r\n") break;
                 if (Contact.validatePhone(phone)) {
                     phones.push(phone);
                 } else {
@@ -74,12 +133,10 @@ import util from 'util';
                 }
             }
             console.log(`phones: ${JSON.stringify(phones)}`);
+
             let comment = readlineSync.question('Insert comment: ');
-            contact.phones = phones;
-            contact.lastName = lastName;
-            contact.firstName = firstName;
-            contact.comment = comment;
-            ContactDAO.save();
+
+            ContactDAO.update(id, lastName, firstName, birthday, phones, comment);
             continue;
         }
 
@@ -113,9 +170,10 @@ import util from 'util';
             continue;
         }
 
+        if (text === "birthDay" || text === "birthDay\r\n") {
+            continue;
+        }
+
         console.log("Wrong answer. You should wtite the rigth statements ;)"); 
     }
 }());
-
-
-// ContactDAO.add(new Contact(["+375-(29)-765-70-63", "+375-(33)-765-70-00"], "d", "d", "d"));

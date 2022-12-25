@@ -4,13 +4,23 @@ import fs from 'fs';
 export default class ContactDAO {
     static #contacts;
 
+    // static initialization block
     static {
         ContactDAO.#contacts = JSON.parse(fs.readFileSync("contacts.json", "utf-8"));
+    }
+
+    static get contacts() {
+        return ContactDAO.#contacts;
+    }
+
+    static save() {
+        fs.writeFileSync("contacts.json", JSON.stringify(ContactDAO.#contacts), "utf-8");
     }
 
     static add(contact) {
         if (!(contact instanceof Contact)) throw new TypeError("value is not 'Contact' type");
         ContactDAO.#contacts.push(contact);
+        ContactDAO.save();
     }
 
     static delete(id) {
@@ -18,15 +28,35 @@ export default class ContactDAO {
         if (index) {
             delete ContactDAO.#contacts[index];
             ContactDAO.#contacts = ContactDAO.#contacts.filter((contact) => contact);
+            ContactDAO.save();
             return index;
         } else {
             return null;
         }
     }
 
-    // static update(contact) {
-    //     if (!(contact instanceof Contact)) throw new TypeError("value is not 'Contact' type");
-    // }
+    static update(id, newLastName, newFirstName, newBirthDate, newPhones, newComment) {
+        let contact = ContactDAO.getContactById(id);
+        if (contact) {
+            contact.lastName = newLastName;
+            contact.firstName = newFirstName;
+            contact.birthDate = newBirthDate;
+            contact.phones = newPhones;
+            contact.comment = newComment;
+            ContactDAO.save();
+        } else {
+            console.log(`contact with id+${id} don't found`);
+        }
+    }
+
+    static getContactById(id) {
+        let contact = ContactDAO.#contacts.find((contact) => contact.id === Number(id));
+        if (contact) {
+            return contact;
+        } else {
+            return null;
+        }
+    }
 
     static getContactsByPhone(phone) {
         if (Contact.validatePhone(phone)) {
@@ -54,23 +84,6 @@ export default class ContactDAO {
         let contacts = ContactDAO.#contacts.filter((contact) => contact.firstName === firstName);
         if (contacts) {
             return contacts;
-        } else {
-            return null;
-        }
-    }
-
-    static save() {
-        fs.writeFileSync("contacts.json", JSON.stringify(ContactDAO.#contacts), "utf-8");
-    }
-
-    static get contacts() {
-        return ContactDAO.#contacts;
-    }
-
-    static getContactById(id) {
-        let contact = ContactDAO.#contacts.find((contact) => contact.id === Number(id));
-        if (contact) {
-            return contact;
         } else {
             return null;
         }

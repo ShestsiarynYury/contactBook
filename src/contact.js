@@ -2,23 +2,23 @@ import ContactDAO from './contact_dao.js';
 
 export default class Contact {
     #id;
-    #phones;
     #lastName;
     #firstName;
-    // #birthDate;
+    #birthDate;
+    #phones;
     #comment;
                                         
-    constructor(phones, lastName, firstName,/*birthDate,*/ comment) {
+    constructor(lastName, firstName, birthDate, phones, comment) {
         this.#id = Contact.#generateId();
+        this.#lastName = lastName;
+        this.#firstName = firstName;
+        this.#birthDate = birthDate;
         if (!Contact.validatePhones(phones)) {
             console.log("Value of phones is not valid so it will be initialized to default value! []");
             this.#phones = [];
         } else {
             this.#phones = phones;
         }
-        this.#lastName = lastName;
-        this.#firstName = firstName;
-        // this.#birthDate = birthDate;
         this.#comment = comment;
     }
 
@@ -40,19 +40,6 @@ export default class Contact {
         return this.#id;
     }
 
-    set phones(value) {
-        if (!Contact.validatePhones(value)) {
-            console.log("Value of phones is not valid so it will be initialized to default value! []");
-            this.#phones = phones;
-        } else {
-            this.#phones = phones;
-        }
-    }
-
-    get phones() {
-        return this.#phones;
-    }
-
     set lastName(value) {
         this.#lastName = value;
     }
@@ -69,13 +56,26 @@ export default class Contact {
         return this.#firstName;
     }
 
-    // get berthDate() {
-    //     return this.#birthDate;
-    // }
+    get berthDate() {
+        return this.#birthDate;
+    }
 
-    // set birthDate(value) {
-    //     this.#birthDate = value;
-    // }
+    set birthDate(value) {
+        this.#birthDate = value;
+    }
+
+    set phones(value) {
+        if (!Contact.validatePhones(value)) {
+            console.log("Value of phones is not valid so it will be initialized to default value! []");
+            this.#phones = phones;
+        } else {
+            this.#phones = phones;
+        }
+    }
+
+    get phones() {
+        return this.#phones;
+    }
 
     set comment(value) {
         this.#comment = value;
@@ -92,10 +92,10 @@ export default class Contact {
     toJSON() {
         return ({
             id: this.#id,
-            phones: this.#phones, 
             lastName: this.#lastName, 
             firstName: this.#firstName,
-            /*birthDate: this.#birthDate,*/
+            birthDate: this.#birthDate,
+            phones: this.#phones, 
             comment: this.#comment
         });
     }

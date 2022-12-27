@@ -67,9 +67,9 @@ export default class Contact {
     set phones(value) {
         if (!Contact.validatePhones(value)) {
             console.log("Value of phones is not valid so it will be initialized to default value! []");
-            this.#phones = phones;
+            this.#phones = value;
         } else {
-            this.#phones = phones;
+            this.#phones = value;
         }
     }
 

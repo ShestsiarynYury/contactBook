@@ -28,7 +28,7 @@ import readlineSync from 'readline-sync';
             console.log('Insert birthday: \n');
             console.log('[Z] <- -> [X]  EXIT: [q]\n');
             let maxDay = 31, minDay = 1, day = 15, keyDay;
-            let maxMounth = 12, minMounth = 1, mounth = 7, keyMounth;
+            let maxMonth = 12, minMonth = 1, month = 7, keyMonth;
             while (true) {
                 console.log('\x1B[1A\x1B[K|' +
                     (new Array(day)).join('-') + 'O' +
@@ -41,16 +41,16 @@ import readlineSync from 'readline-sync';
             }
             while (true) {
                 console.log('\x1B[1A\x1B[K|' +
-                    (new Array(mounth)).join('-') + 'O' +
-                    (new Array(maxMounth - mounth + 1)).join('-') + '| ' + mounth);
-                keyMounth = readlineSync.keyIn('', {hideEchoBack: true, mask: '', limit: 'zxq'});
-                if (keyMounth === 'z') { if (mounth > minMounth ) { mounth--; } }
-                else if (keyMounth === 'x') { if (mounth < maxMounth) { mounth++; } }
+                    (new Array(month)).join('-') + 'O' +
+                    (new Array(maxMonth - month + 1)).join('-') + '| ' + month);
+                keyMonth = readlineSync.keyIn('', {hideEchoBack: true, mask: '', limit: 'zxq'});
+                if (keyMonth === 'z') { if (month > minMonth ) { month--; } }
+                else if (keyMonth === 'x') { if (month < maxMonth) { month++; } }
                 else if (keyDay === 'q') { break; }
                 else { break; }
             }
             let year = readlineSync.question('Insert year: ');
-            let birthday = new Date(Number(year), Number(mounth) - 1, Number(day) + 1);
+            let birthday = new Date(Number(year), Number(month) - 1, Number(day) + 1);
             console.log(`birthday: ${JSON.stringify(birthday)}`);
 
             console.log("Type 'q' to finish the enter of phones");
@@ -95,7 +95,7 @@ import readlineSync from 'readline-sync';
             console.log('Insert birthday: \n');
             console.log('[Z] <- -> [X]  EXIT: [q]\n');
             let maxDay = 31, minDay = 1, day = 15, keyDay;
-            let maxMounth = 12, minMounth = 1, mounth = 7, keyMounth;
+            let maxMonth = 12, minMonth = 1, month = 7, keyMonth;
             while (true) {
                 console.log('\x1B[1A\x1B[K|' +
                     (new Array(day)).join('-') + 'O' +
@@ -108,16 +108,16 @@ import readlineSync from 'readline-sync';
             }
             while (true) {
                 console.log('\x1B[1A\x1B[K|' +
-                    (new Array(mounth)).join('-') + 'O' +
-                    (new Array(maxMounth - mounth + 1)).join('-') + '| ' + mounth);
-                keyMounth = readlineSync.keyIn('', {hideEchoBack: true, mask: '', limit: 'zxq'});
-                if (keyMounth === 'z') { if (mounth > minMounth ) { mounth--; } }
-                else if (keyMounth === 'x') { if (mounth < maxMounth) { mounth++; } }
+                    (new Array(month)).join('-') + 'O' +
+                    (new Array(maxMonth - month + 1)).join('-') + '| ' + month);
+                keyMonth = readlineSync.keyIn('', {hideEchoBack: true, mask: '', limit: 'zxq'});
+                if (keyMonth === 'z') { if (month > minMonth ) { month--; } }
+                else if (keyMonth === 'x') { if (month < maxMonth) { month++; } }
                 else if (keyDay === 'q') { break; }
                 else { break; }
             }
             let year = readlineSync.question('Insert year: ');
-            let birthday = new Date(Number(year), Number(mounth) - 1, Number(day) + 1);
+            let birthday = new Date(Number(year), Number(month) - 1, Number(day) + 1);
             console.log(`birthday: ${JSON.stringify(birthday)}`);
 
             console.log("Type 'q' to finish the enter of phones");
@@ -160,7 +160,7 @@ import readlineSync from 'readline-sync';
         }
 
         if (text === "searchByFirstName" || text === "searchByFirstName\r\n") {
-            let firstName = readlineSync.question('Insert lastname: ');
+            let firstName = readlineSync.question('Insert firstname: ');
             console.log(JSON.stringify(ContactDAO.getContactsByFirstName(firstName), null, 5));
             continue;
         }

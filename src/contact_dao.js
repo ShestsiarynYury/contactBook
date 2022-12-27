@@ -6,7 +6,7 @@ export default class ContactDAO {
 
     // static initialization block
     static {
-        ContactDAO.#contacts = JSON.parse(fs.readFileSync("contacts.json", "utf-8"));
+        ContactDAO.#contacts = (JSON.parse(fs.readFileSync("contacts.json", "utf-8"))).map((contact) => {contact.birthDate = new Date(contact.birthDate); return contact;});
     }
 
     static get contacts() {
@@ -90,7 +90,7 @@ export default class ContactDAO {
     }
 
     static getContactsThatHaveBirthday() {
-        let contacts = ContactDAO.#contacts.filter((contact) => (contact.birthDate.getDate() === (new Date()).getDate() && contact.birthDate.getMounth() === (new Date()).getMounth()));
+        let contacts = ContactDAO.#contacts.filter((contact) => (contact.birthDate.getDate() - 1 === (new Date()).getDate() && contact.birthDate.getMonth() === (new Date()).getMonth()));
         if (contacts) {
             return contacts;
         } else {
